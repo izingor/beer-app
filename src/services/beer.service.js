@@ -1163,17 +1163,16 @@ const beers = [
         "brewers_tips": "Authentic heather honey adds a beautiful floral top note that is unachievable any other way.",
         "contributed_by": "Sam Mason <samjbmason>"
     }
-]
+];
 
 
 async function query(filterBy = null) {
 
     const page = filterBy?.page ? filterBy.page : '1';
     const food = filterBy?.food ? `&food=${filterBy.food}` : '';
-
     try {
         // const res = await axios.get(`https://api.punkapi.com/v2/beers?page=${page}&per_page=9${food}`);
-        // console.log(beers)
+        // console.log(res);
         return beers;
     } catch (err) {
         console.log('Had an error while getting you beers', err);
