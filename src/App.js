@@ -6,7 +6,7 @@ import { BeersPage } from './pages/BeersPage';
 function App() {
   return (
     <Router>
-      <div className="flex flex-col h-screen justify-netween relative">
+      <div className="flex flex-col h-screen justify-between ">
         <Header />
         <Switch>
 

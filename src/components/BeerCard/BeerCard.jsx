@@ -1,41 +1,24 @@
 import React from 'react';
 
-export const BeerCard = ({beer}) => {
-
-	const {name,image_url,description,tagline} = beer
+export const BeerCard = ({ beer }) => {
+	const { name, image_url, description, tagline } = beer;
+	const backgroundImage = { backgroundImage: `url(${image_url})` };
 
 	return (
-		<div className='max-w-sm bg-white rounded-lg border border-gray-200 shadow-md'>
-			{/* <a href="#">
-				<img className="rounded-t-lg h-20 w-auto" src={image_url} alt="" />
-			</a> */}
-			<div className="p-5 text-clip">
-				<a href="#">
-					<h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">
-				{name}
-					</h5>
-				</a>
-				<p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-					{tagline}
+		<div
+			className="card break-inside-avoid  mb-4 cursor-pointer border border-gray-400 rounded-lg hover:shadow-md hover:border-opacity-0 transform hover:bg-gray_hover transition-all duration-200 bg-no-repeat bg-right-bottom bg-[length:50px_125px] bg-origin-content p-3 "
+			style={backgroundImage}
+		>
+			<div className="m-4 w-3/4 ">
+				<h2 className="text-lg mb-2">{name}</h2>
+				<p className="font-light font-mono text-sm text-gray-700 hover:text-gray-900 transition-all duration-200">
+					{description}
 				</p>
-				<a
-					href="#"
-					className="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-				>
-					Read more
-					<svg
-						className="ml-2 -mr-1 w-4 h-4"
-						fill="currentColor"
-						viewBox="0 0 20 20"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							fillRule="evenodd"
-							d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-							clipRule="evenodd"
-						></path>
-					</svg>
-				</a>
+				<div className="flex flex-col mt-3">
+					<p className="font-light font-mono text-xs text-gray-500 hover:text-gray-900 transition-all duration-200">
+						{tagline}
+					</p>
+				</div>
 			</div>
 		</div>
 	);

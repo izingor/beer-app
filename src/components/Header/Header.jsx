@@ -1,13 +1,12 @@
 import { Nav } from './Nav';
 import { Hamburger } from './Hamburger';
 import { useState } from 'react';
-import {MobileNav} from './MobileNav'
+import { MobileNav } from './MobileNav';
 
 export const Header = () => {
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
 	const onMobileMenuClicked = () => {
-		console.log('clicked')
 		setIsMobileMenuOpen(!isMobileMenuOpen);
 	};
 	return (
@@ -19,7 +18,9 @@ export const Header = () => {
 						<Nav />
 					</div>
 				</div>
-				{isMobileMenuOpen && <MobileNav onMobileMenuClicked={onMobileMenuClicked} />}
+				{isMobileMenuOpen && (
+					<MobileNav onMobileMenuClicked={onMobileMenuClicked} />
+				)}
 			</nav>
 		</section>
 	);

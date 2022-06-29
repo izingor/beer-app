@@ -18,7 +18,8 @@ module.exports = {
       yellow: 'rgb(255 192 69)',
       'yellow_hover':'#ffa900',
       'yellow_active':'#FFE5B4',
-      'theme_hover': '#3e859f'
+      'theme_hover': '#3e859f',
+      'gray_hover':'#F9F9F9'
 
     },
     extend: {},
