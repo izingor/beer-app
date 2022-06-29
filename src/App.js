@@ -3,6 +3,7 @@ import { HomePage } from './pages/HomePage';
 import { Header } from './components/Header/Header';
 import { Footer } from './components/Footer';
 import { BeersPage } from './pages/BeersPage';
+import { FavoritesPage } from './pages/FavoritesPage';
 function App() {
   return (
     <Router>
@@ -10,6 +11,7 @@ function App() {
         <Header />
         <Switch>
 
+          <Route path='/favorites' component={FavoritesPage} />
           <Route path='/beers' component={BeersPage} />
           <Route path='/' component={HomePage} />
 

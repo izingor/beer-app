@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const BeerDetailsRow = ({
+export const ModalRow = ({
 	isGrey = false,
 	txt = '',
 	data = null,

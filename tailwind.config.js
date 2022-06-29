@@ -21,7 +21,9 @@ module.exports = {
       'theme_hover': '#3e859f',
       'gray_hover': '#F9F9F9',
       white: '#FFFFFF',
-      'gray_border':'#F9F2ED'
+      'gray_border':'#F9F2ED',
+      red:'#F94C66',
+      'hover_red':'#F15412'
 
 
     },

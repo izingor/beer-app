@@ -1,8 +1,13 @@
 import axios from 'axios';
+import { asyncStorageService } from './async.storage.service';
 
+
+const BEER_DB = 'beerDB';
 
 export const beerService = {
-    query
+    query,
+    addToFavorites,
+    getFavorites
 };
 
 
@@ -1180,3 +1185,29 @@ async function query(filterBy = null) {
 
 }
 
+async function addToFavorites(beer) {
+    // console.log('beer',beer)
+    try {
+        const favoriteBeer = await asyncStorageService.get(BEER_DB, beer.id);
+        // console.log('favorite beer', favoriteBeer);
+        if (favoriteBeer) {
+            // updatedFavorites = await asyncStorageService.remove(BEER_DB, beer.id);
+            return null;
+        } else {
+            const updatedFavorites = await asyncStorageService.post(BEER_DB, beer);
+            return updatedFavorites;
+        }
+    } catch (err) {
+        console.log('Had an error while adding your beer to favorites', err);
+    }
+}
+
+
+async function getFavorites() {
+    try {
+        const favoriteBeers = await asyncStorageService.query(BEER_DB);
+        return favoriteBeers;
+    } catch (err) {
+        console.log('Had an error while getting your favorite beers', err);
+    }
+}

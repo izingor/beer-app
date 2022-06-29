@@ -2,14 +2,19 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { BeerCard } from '../components/BeerCard/BeerCard'
-import { beerState, getBeers } from '../store/slices/beers.store'
+import {
+	beerState,
+	getBeers,
+	addToFavorites,
+} from '../store/slices/beers.store'
 import { LoadingSpinner } from '../components/misc/LoadingSpinner'
 import { Pagination } from '../components/misc/Pagination'
 import { useQuery } from '../hooks/useQuery'
 import { useHistory } from 'react-router-dom'
 import { SearchInput } from '../components/misc/SearchInput'
 import { NotFoundMsg } from '../components/misc/NotFoundMsg'
-import { BeerDetailsModal } from '../components/modals/BeerDetailsModal/BeerDetailsModal'
+import { BeerDetailsModal } from '../components/modals/BeerDetailsModal'
+import { SmallBtn } from '../components/buttons/SmallBtn'
 
 export const BeersPage = () => {
 	const history = useHistory()
@@ -57,11 +62,7 @@ export const BeersPage = () => {
 	}
 
 	const onBeerDetailsClicked = (beerId = null) => {
-		console.log('clicked')
-		// if (!beerId) {
-		// 	setBeerDetails(null)
-		// 	return
-		// }
+		
 		if (!beerDetails) {
 			const beerForDisplay = beers.find((beer) => beer.id === beerId)
 			setBeerDetails(beerForDisplay)
@@ -70,11 +71,17 @@ export const BeersPage = () => {
 		}
 	}
 
+	const onAddFavoriteClicked = (beerId) => {
+		console.log('beer', beerId)
+		const favoriteBeer = beers.find((beer) => beer.id === beerId)
+		dispatch(addToFavorites(favoriteBeer))
+	}
+
 	const isNoBeers = beers && !beers.length && true
 
 	return (
 		<div className='container flex flex-col'>
-			<div className='flex w-full place-self-start'>
+			<div className='flex w-full'>
 				<SearchInput onSearchClicked={onSearchClicked} />
 				<Pagination
 					onNextClicked={onNextClicked}
@@ -91,6 +98,21 @@ export const BeersPage = () => {
 							beer={beer}
 							key={beer.id}
 							onBeerDetailsClicked={onBeerDetailsClicked}
+							onAddFavoriteClicked={onAddFavoriteClicked}
+							actionBtn={
+								<SmallBtn
+									type='generic'
+									txt='Add to favorites'
+									handleClick={() => onAddFavoriteClicked(beer.id)}
+								/>
+							}
+							backBtn={
+								<SmallBtn
+									type='details'
+									txt='Details'
+									handleClick={() => onBeerDetailsClicked(beer.id)}
+								/>
+							}
 						/>
 					))}
 				</div>
