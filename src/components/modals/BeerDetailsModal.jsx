@@ -9,7 +9,7 @@ export const BeerDetailsModal = ({
 }) => {
 	return (
 		<>
-			<GenericModal
+			<GenericModal key = 'beerdetailsmodal'
 				rows={[
 					<ModalRow key='beerDetails' isGrey={true} txt='Beer Details' />,
 					<ModalRow key='beerName' txt='Name' data={beer.name} />,
@@ -19,11 +19,11 @@ export const BeerDetailsModal = ({
 						txt='First Brewed'
 						data={beer.first_brewed}
 					/>,
-					<>
+					<div key='rating'>
 						{rating && (
-							<ModalRow key='ratingdropdownddd' txt='Rating' data={rating} />
+							<ModalRow txt='Rating' data={rating} />
 						)}
-					</>,
+					</div>,
 					<ModalRow
 						key='backDetailsBtn'
 						btn={
