@@ -4,7 +4,6 @@ export const asyncStorageService = {
     post,
     put,
     remove,
-    postMany,
     removeAll
 };
 
@@ -14,7 +13,6 @@ function query(entityType) {
 }
 
 function get(entityType, entityId) {
-    console.log(entityType, entityId);
     return query(entityType)
         .then(entities => entities.find(entity => entity.id === entityId));
 }
@@ -28,17 +26,7 @@ function post(entityType, newEntity) {
         });
 }
 
-function postMany(entityType, newEntities) {
-    return query(entityType)
-        .then(entities => {
-            entities.push(...newEntities);
-            _save(entityType, entities);
-            return entities;
-        });
-}
-
 function put(entityType, updatedEntity) {
-    console.log('updating favorite beer async storage')
     return query(entityType)
         .then(entities => {
             const idx = entities.findIndex(entity => entity.id === updatedEntity.id);
@@ -59,10 +47,8 @@ function remove(entityType, entityId) {
 }
 
 function removeAll() {
-
     localStorage.clear();
     return Promise.resolve([]);
-
 }
 
 function _save(entityType, entities) {

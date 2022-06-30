@@ -52,13 +52,11 @@ export const FavoritesPage = () => {
 
 	return (
 		<div className='container flex flex-col justify-center items-center'>
-			{/* {isThereFavorites && ( */}
 			{isThereFavorites ? (
 				<>
 					<FavoritesActionBar
 						onRemoveAllClicked={() => setIsRemoveModal(true)}
 					/>
-					{/* )} */}
 					<div className='columns-xs pb-20 '>
 						{favoriteBeers.map((favoriteBeer, idx) => (
 							<BeerCard

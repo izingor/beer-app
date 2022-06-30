@@ -28,7 +28,6 @@ export const removeAllFavorites = createAsyncThunk('beer/removeAllFavorites', as
 });
 
 export const updateFavoriteBeer = createAsyncThunk('beer/updateBeerRating', async (beer) => {
-    console.log('updating beer store');
     const res = await beerService.updateFavoriteBeer(beer);
     return res;
 });
@@ -73,7 +72,6 @@ const beerSlice = createSlice({
                 state.allRemovedStatus = true;
             })
             .addCase(updateFavoriteBeer.fulfilled, (state, { payload }) => {
-                console.log('payload came back', payload);
                 state.favoriteBeers = payload;
             });
     }

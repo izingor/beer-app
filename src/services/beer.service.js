@@ -29,7 +29,7 @@ async function addToFavorites(beer) {
     try {
         const favoriteBeer = await asyncStorageService.get(BEER_DB, beer.id);
         if (favoriteBeer) {
-            return Promise.reject('exists')
+            return Promise.reject('exists');
         } else {
             const updatedFavorites = await asyncStorageService.post(BEER_DB, beer);
             return updatedFavorites;
@@ -58,7 +58,6 @@ async function getFavorites() {
 }
 
 async function removeAllFavorites() {
-
     try {
         const updatedFavorites = await asyncStorageService.removeAll();
         return updatedFavorites;
@@ -68,7 +67,6 @@ async function removeAllFavorites() {
 }
 
 async function updateFavoriteBeer(beer) {
-    console.log('service updating',beer)
     try {
         const updatedBeer = await asyncStorageService.put(BEER_DB, beer);
         return updatedBeer;
