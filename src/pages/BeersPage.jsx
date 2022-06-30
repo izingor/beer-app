@@ -1,5 +1,5 @@
 // import { LoadingSpinner } from '../components/misc/LoadingSpinner';
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { BeerCard } from '../components/BeerCard/BeerCard'
 import {
@@ -21,41 +21,59 @@ export const BeersPage = () => {
 	const query = useQuery()
 	const dispatch = useDispatch()
 
-	const { beers } = useSelector(beerState)
+	const { beers, favoriteBeers, queryParams } = useSelector(beerState)
+	let page = useRef(1)
+	let food = useRef('')
+
 	const currPage = query.get('page')
 	const currFood = query.get('food')
 
-	const [queryParams, setQueryParams] = useState({
-		page: !currPage ? 1 : currPage,
-		food: !currFood ? '' : currFood,
-	})
-
 	const [beerDetails, setBeerDetails] = useState(null)
-
 	useEffect(() => {
-		if (currPage !== queryParams.page)
-			history.push(`/beers?page=${queryParams.page}`)
-		if (queryParams.food && currFood !== queryParams.food)
-			history.push(`/beers?page=${queryParams.page}&food=${queryParams.food}`)
-		if (!queryParams.food && currFood)
-			history.push(`/beers?page=${queryParams.page}`)
+		if (currPage && currPage !== page.current) {
+			page.current = currPage
+		} else if (currFood && currFood !== food.current) {
+			food.current = currFood
+		}
 
-		dispatch(getBeers(queryParams))
-	}, [dispatch, queryParams])
+		dispatch(getBeers({ page: page.current, food: food.current }))
+	}, [dispatch, page.current, food.current])
 
 	const onNextClicked = () => {
 		if (beers.length < 9) return
-		setQueryParams((prev) => ({ ...prev, page: +queryParams.page + 1 }))
+
+		page.current++
+
+		if (!currFood) {
+			history.push(`/beers?page=${page.current}`)
+		} else {
+			history.push(`/beers?page=${page.current}&food=${food.current}`)
+		}
 	}
 
 	const onPrevClicked = () => {
-		if (queryParams.page === 1) return
-		setQueryParams((prev) => ({ ...prev, page: +queryParams.page - 1 }))
+		if (currPage < 2) return
+
+		page.current--
+
+		if (!currFood) {
+			history.push(`/beers?page=${page.current}`)
+		} else {
+			history.push(`/beers?page=${page.current}&food=${food.current}`)
+		}
 	}
 
 	const onSearchClicked = (e) => {
 		e.preventDefault()
-		setQueryParams({ page: 1, food: e.target[0].value })
+		food.current = e.target[0].value
+		if (!e.target[0].value) {
+			history.push(`/beers?page=${1}`)
+		} else if (page.current !== 1) {
+			page.current = 1
+			history.push(`/beers?page=${page.current}&food=${food.current}`)
+		} else {
+			history.push(`/beers?page=${page.current}&food=${food.current}`)
+		}
 	}
 
 	const onBeerDetailsClicked = (beerId = null) => {
@@ -90,6 +108,7 @@ export const BeersPage = () => {
 				<div className='columns-xs pb-20 '>
 					{beers.map((beer) => (
 						<BeerCard
+							// favoriteIds={favoriteIds}
 							beer={beer}
 							key={beer.id}
 							onBeerDetailsClicked={onBeerDetailsClicked}
