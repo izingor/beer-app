@@ -27,7 +27,7 @@ export const RemoveConfirmationModal = ({
 						btn={[
 							<SmallBtn
 								key="removeConfirm"
-								type="alert"
+								type="generic"
 								txt="Confirm"
 								handleClick={onRemoveAllConfirmed}
 							/>,

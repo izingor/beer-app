@@ -9,7 +9,7 @@ export const SuccessModal = ({handleClick}) => {
 		<>
 			<GenericModal
 				rows={[
-					<ModalRow key="removeMsg" txt="Your favorites has been removed" />,
+					<ModalRow isGrey={true} key="removeMsg" txt="Your favorites has been removed" />,
 					<ModalRow
 						key="successRemoveAnimation"
 						animation={<Lottie animationData={SuccessAnimation} loop={false} />}

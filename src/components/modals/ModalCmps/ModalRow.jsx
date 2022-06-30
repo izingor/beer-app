@@ -8,8 +8,8 @@ export const ModalRow = ({
 	animation = null,
 }) => {
 	const rowClass = isGrey
-		? ' bg-gray_hover px-4 py-5 grid grid-cols-4 gap-4 px-4  sm:grid sm:grid-cols-5 sm:gap-4 sm:px-6'
-		: ' bg-white px-4 py-5 grid grid-cols-4 gap-4 px-4 border-b  border-gray_border  sm:grid sm:grid-cols-5 sm:gap-4 sm:px-6';
+		? ' bg-theme text-yellow px-4 py-5 grid grid-cols-4 gap-4 px-4  sm:grid sm:grid-cols-5 sm:gap-4 sm:px-6'
+		: ' bg-white px-4 py-5 grid grid-cols-4 gap-4 px-4 border-b-4 border-gray_border  sm:grid sm:grid-cols-5 sm:gap-4 sm:px-6';
 
 	return (
 		<div className={rowClass}>
