@@ -5,9 +5,7 @@ export const SearchInput = ({ onSearchClicked }) => {
 				className="flex items-center w-full sm:w-2/3"
 				onSubmit={onSearchClicked}
 			>
-				<label htmlFor="simple-search" className="sr-only">
-					Search
-				</label>
+				
 				<div className="relative w-full">
 					<div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
 						<svg

@@ -15,6 +15,7 @@ import { SmallBtn } from '../components/buttons/SmallBtn'
 import { SuccessModal } from '../components/modals/SuccessModal'
 import { BeerDetailsModal } from '../components/modals/BeerDetailsModal'
 import { RatingDropdown } from '../components/misc/RatingDropdown'
+import { EmptyMsg } from '../components/misc/EmptyMsg'
 
 export const FavoritesPage = () => {
 	const { favoriteBeers, allRemovedStatus } = useSelector(beerState)
@@ -50,32 +51,42 @@ export const FavoritesPage = () => {
 	const isThereFavorites = favoriteBeers && favoriteBeers.length > 0
 
 	return (
-		<div className='container flex flex-col'>
-			{isThereFavorites && (
-				<FavoritesActionBar onRemoveAllClicked={() => setIsRemoveModal(true)} />
-			)}
-			<div className='columns-xs pb-20 '>
-				{favoriteBeers.map((favoriteBeer, idx) => (
-					<BeerCard
-						actionBtn={
-							<SmallBtn
-								txt='Remove'
-								type='generic'
-								handleClick={() => onRemoveFavoriteClicked(favoriteBeer?.id)}
-							/>
-						}
-						details={
-							<SmallBtn
-								txt='Details'
-								type='details'
-								handleClick={() => setFavoriteIdx(idx)}
-							/>
-						}
-						key={favoriteBeer?.id}
-						beer={favoriteBeer}
+		<div className='container flex flex-col justify-center items-center'>
+			{/* {isThereFavorites && ( */}
+			{isThereFavorites ? (
+				<>
+					<FavoritesActionBar
+						onRemoveAllClicked={() => setIsRemoveModal(true)}
 					/>
-				))}
-			</div>
+					{/* )} */}
+					<div className='columns-xs pb-20 '>
+						{favoriteBeers.map((favoriteBeer, idx) => (
+							<BeerCard
+								actionBtn={
+									<SmallBtn
+										txt='Remove'
+										type='generic'
+										handleClick={() =>
+											onRemoveFavoriteClicked(favoriteBeer?.id)
+										}
+									/>
+								}
+								details={
+									<SmallBtn
+										txt='Details'
+										type='details'
+										handleClick={() => setFavoriteIdx(idx)}
+									/>
+								}
+								key={favoriteBeer?.id}
+								beer={favoriteBeer}
+							/>
+						))}
+					</div>
+				</>
+			) : (
+				<EmptyMsg />
+			)}
 			{isRemoveModal && (
 				<RemoveConfirmationModal
 					onRemoveAllConfirmed={onRemoveAllConfirmed}

@@ -21,7 +21,7 @@ export const BeerDetailsModal = ({
 					/>,
 					<>
 						{rating && (
-							<ModalRow key='ratingDropdown' txt='Rating' data={rating} />
+							<ModalRow key='ratingdropdownddd' txt='Rating' data={rating} />
 						)}
 					</>,
 					<ModalRow
