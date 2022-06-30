@@ -29,7 +29,7 @@ async function addToFavorites(beer) {
     try {
         const favoriteBeer = await asyncStorageService.get(BEER_DB, beer.id);
         if (favoriteBeer) {
-            return null;
+            return Promise.reject('exists')
         } else {
             const updatedFavorites = await asyncStorageService.post(BEER_DB, beer);
             return updatedFavorites;

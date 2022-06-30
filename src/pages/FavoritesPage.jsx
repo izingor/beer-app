@@ -7,7 +7,7 @@ import {
 	removeFavorite,
 	removeAllFavorites,
 	resetAllRemovedStatus,
-	updateFavoriteBeer
+	updateFavoriteBeer,
 } from '../store/slices/beers.store'
 import { FavoritesActionBar } from '../components/misc/FavoritesActionBar'
 import { RemoveConfirmationModal } from '../components/modals/RemoveConfirmationModal'
@@ -21,7 +21,7 @@ export const FavoritesPage = () => {
 	const [isRemoveModal, setIsRemoveModal] = useState(false)
 	const dispatch = useDispatch()
 
-	const [beerDetails, setBeerDetails] = useState(null)
+	const [favoriteIdx, setFavoriteIdx] = useState(null)
 
 	useEffect(() => {
 		dispatch(getFavorites())
@@ -41,10 +41,9 @@ export const FavoritesPage = () => {
 	}
 
 	const onRatingChanged = ({ target }) => {
+		const beerForUpdate = { ...favoriteBeers[favoriteIdx] }
+		beerForUpdate.rating = +target.value
 
-		const beerForUpdate = {...beerDetails}
-		beerForUpdate.rating = +target.value;
-		
 		dispatch(updateFavoriteBeer(beerForUpdate))
 	}
 
@@ -56,7 +55,7 @@ export const FavoritesPage = () => {
 				<FavoritesActionBar onRemoveAllClicked={() => setIsRemoveModal(true)} />
 			)}
 			<div className='columns-xs pb-20 '>
-				{favoriteBeers.map((favoriteBeer) => (
+				{favoriteBeers.map((favoriteBeer, idx) => (
 					<BeerCard
 						actionBtn={
 							<SmallBtn
@@ -69,7 +68,7 @@ export const FavoritesPage = () => {
 							<SmallBtn
 								txt='Details'
 								type='details'
-								handleClick={() => setBeerDetails(favoriteBeer)}
+								handleClick={() => setFavoriteIdx(idx)}
 							/>
 						}
 						key={favoriteBeer?.id}
@@ -84,11 +83,16 @@ export const FavoritesPage = () => {
 				/>
 			)}
 			{allRemovedStatus && <SuccessModal handleClick={closeSuccessModal} />}
-			{beerDetails && (
+			{favoriteBeers[favoriteIdx] && (
 				<BeerDetailsModal
-					rating={<RatingDropdown handleChange={onRatingChanged} />}
-					beer={beerDetails}
-					onBeerDetailsClicked={() => setBeerDetails(null)}
+					rating={
+						<RatingDropdown
+							rating={favoriteBeers[favoriteIdx]?.rating}
+							handleChange={onRatingChanged}
+						/>
+					}
+					beer={favoriteBeers[favoriteIdx]}
+					onBeerDetailsClicked={() => setFavoriteIdx(null)}
 				/>
 			)}
 		</div>
