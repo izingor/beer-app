@@ -1,6 +1,6 @@
 // import { RatingDropdown } from '../../misc/RatingDropdown';
 // import { ModalRow } from '../ModalCmps/ModalRow';
-export const GenericModal = ({ rows, rating = null }) => {
+export const GenericModal = ({ rows }) => {
 	return (
 		<div
 			id="medium-modal"
@@ -10,7 +10,6 @@ export const GenericModal = ({ rows, rating = null }) => {
 				<div className="relative  w-9/12 h-min-content  inset-y-auto right-1/4 t md:w-2/4 md:inset-x-auto bg-white rounded-lg translate-x-1/2 translate-y-1/3 flex justify-center items-center">
 					<div className="bg-white shadow rounded overflow-hidden w-full">
 						{rows}
-						{rating}
 					</div>
 				</div>
 			</div>

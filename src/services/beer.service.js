@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { asyncStorageService } from './async.storage.service';
 
-
 const BEER_DB = 'beerDB';
 
 export const beerService = {
@@ -9,7 +8,8 @@ export const beerService = {
     addToFavorites,
     getFavorites,
     removeFavorite,
-    removeAllFavorites
+    removeAllFavorites,
+    updateFavoriteBeer
 };
 
 async function query(filterBy = null) {
@@ -39,8 +39,6 @@ async function addToFavorites(beer) {
     }
 }
 
-
-
 async function removeFavorite(favoriteId) {
     try {
         const updatedFavorites = await asyncStorageService.remove(BEER_DB, favoriteId);
@@ -49,7 +47,6 @@ async function removeFavorite(favoriteId) {
         console.log('Had an error while removing your favorite', err);
     }
 }
-
 
 async function getFavorites() {
     try {
@@ -67,5 +64,15 @@ async function removeAllFavorites() {
         return updatedFavorites;
     } catch (err) {
         console.log('Had an error while removing the local storage', err);
+    }
+}
+
+async function updateFavoriteBeer(beer) {
+    console.log('service updating',beer)
+    try {
+        const updatedBeer = await asyncStorageService.put(BEER_DB, beer);
+        return updatedBeer;
+    } catch (err) {
+        console.log('Had an error while updating your beer', err);
     }
 }
