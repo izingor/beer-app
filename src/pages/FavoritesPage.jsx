@@ -1,41 +1,70 @@
-import { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { BeerCard } from '../components/BeerCard/BeerCard'
-import { beerState, getFavorites } from '../store/slices/beers.store'
-import { FavoritesActionBar } from '../components/misc/FavoritesActionBar'
-import { RemoveConfirmationModal } from '../components/modals/RemoveConfirmationModal'
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { BeerCard } from '../components/BeerCard/BeerCard';
+import {
+	beerState,
+	getFavorites,
+	removeFavorite,
+	removeAllFavorites,
+	resetAllRemovedStatus,
+} from '../store/slices/beers.store';
+import { FavoritesActionBar } from '../components/misc/FavoritesActionBar';
+import { RemoveConfirmationModal } from '../components/modals/RemoveConfirmationModal';
+import { LoadingSpinner } from '../components/misc/LoadingSpinner';
+import { SmallBtn } from '../components/buttons/SmallBtn';
+import { SuccessModal } from '../components/modals/SuccessModal';
+
 export const FavoritesPage = () => {
-	const { favoriteBeers } = useSelector(beerState)
-	const [isRemoveModal, setIsRemoveModal] = useState(false)
-	const dispatch = useDispatch()
+	const { favoriteBeers, allRemovedStatus } = useSelector(beerState);
+	const [isRemoveModal, setIsRemoveModal] = useState(false);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(getFavorites())
-	}, [dispatch])
+		dispatch(getFavorites());
+	}, [dispatch]);
 
 	const onRemoveAllConfirmed = () => {
-		console.log('remove all clicked')
-	}
+		dispatch(removeAllFavorites());
+		setIsRemoveModal(false);
+	};
 
-	// console.log(favoriteBeers)
+	const onRemoveFavoriteClicked = (favoriteId) => {
+		dispatch(removeFavorite(favoriteId));
+	};
+
+	const closeSuccessModal = () => {
+		dispatch(resetAllRemovedStatus());
+	};
 
 	return (
-		<div className='container flex flex-col'>
+		<div className="container flex flex-col">
 			<FavoritesActionBar onRemoveAllClicked={() => setIsRemoveModal(true)} />
-			<div className='columns-xs pb-20 '>
-				{favoriteBeers &&
-					favoriteBeers.map((beer) => (
+			<div className="columns-xs pb-20 ">
+				{favoriteBeers ? (
+					favoriteBeers.map((favoriteBeer) => (
 						<BeerCard
-							beer={beer}
-							key={beer.id}
-							// onBeerDetailsClicked={onBeerDetailsClicked}
-							// onAddFavoriteClicked={onAddFavoriteClicked}
+							actionBtn={
+								<SmallBtn
+									txt="Remove"
+									type="alert"
+									handleClick={() => onRemoveFavoriteClicked(favoriteBeer?.id)}
+								/>
+							}
+							key={favoriteBeer.id}
+							beer={favoriteBeer}
 						/>
-					))}
+					))
+				) : (
+					<LoadingSpinner />
+				)}
 			</div>
 			{isRemoveModal && (
-				<RemoveConfirmationModal onRemoveAllConfirmed={onRemoveAllConfirmed} />
+				<RemoveConfirmationModal
+					onRemoveAllConfirmed={onRemoveAllConfirmed}
+					onCloseConfirtmationModal={() => setIsRemoveModal(false)}
+				/>
 			)}
+			{allRemovedStatus && <SuccessModal handleClick={closeSuccessModal} />}
 		</div>
-	)
-}
+	);
+};

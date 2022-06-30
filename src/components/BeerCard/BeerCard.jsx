@@ -1,4 +1,4 @@
-export const BeerCard = ({ beer, actionBtn, backBtn }) => {
+export const BeerCard = ({ beer, actionBtn=null, backBtn=null }) => {
 	const { name, image_url, description, tagline } = beer
 	const backgroundImage = { backgroundImage: `url(${image_url})` }
 

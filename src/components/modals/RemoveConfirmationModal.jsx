@@ -1,44 +1,46 @@
-import { SmallBtn } from '../buttons/SmallBtn'
-import { ModalRow } from '../modals/ModalCmps/ModalRow'
-import { GenericModal } from './ModalCmps/GenericModal'
-export const RemoveConfirmationModal = ({ onRemoveAllConfirmed }) => {
+import { SmallBtn } from '../buttons/SmallBtn';
+import { ModalRow } from '../modals/ModalCmps/ModalRow';
+import { GenericModal } from './ModalCmps/GenericModal';
+import Lottie from 'lottie-react';
+import WarningAnimation from '../../assets/lottie-animations/warning.json';
+
+export const RemoveConfirmationModal = ({
+	onRemoveAllConfirmed,
+	onCloseConfirtmationModal,
+}) => {
 	return (
 		<>
 			<GenericModal
 				rows={[
 					<ModalRow
-						key='removeConfirmationMsg'
+						key="removeConfirmationMsg"
 						isGrey={true}
-						txt='Are you sure you want to continue?'
+						txt="Are you sure you want to continue?"
 					/>,
 					<ModalRow
-						key='removeConfirmationBtn'
+						key="warningAnimation"
+						animation={<Lottie animationData={WarningAnimation} loop={true} />}
+					/>,
+					<ModalRow
+						key="removeConfirmationBtn"
 						isGrey={false}
-						btn={
+						btn={[
 							<SmallBtn
-								type='alert'
-								txt='Confirm'
+								key="removeConfirm"
+								type="alert"
+								txt="Confirm"
 								handleClick={onRemoveAllConfirmed}
-							/>
-						}
+							/>,
+							<SmallBtn
+								key="closeConfirtmation"
+								type="details"
+								txt="Back"
+								handleClick={onCloseConfirtmationModal}
+							/>,
+						]}
 					/>,
 				]}
 			/>
 		</>
-		// <div
-		// 		id='medium-modal'
-		// 		className='overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full  h-modal h-full'
-		// 	>
-		// 		<div className='relative h-full w-full z-40'>
-		// 			<div className='relative  w-9/12 h-min-content  inset-y-auto right-1/4 t md:w-2/4 md:inset-x-auto bg-white rounded-lg translate-x-1/2 translate-y-1/3 flex justify-center items-center'>
-		// 				<div className='bg-white shadow rounded overflow-hidden w-full'>
-		// 					<div className=''>
-		// 						<ModalRow isGrey={true} txt='Are you sure you want to continue?' />
-
-		// 					</div>
-		// 				</div>
-		// 			</div>
-		// 		</div>
-		// 	</div>
-	)
-}
+	);
+};

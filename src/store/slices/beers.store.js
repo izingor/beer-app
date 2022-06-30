@@ -14,14 +14,24 @@ export const addToFavorites = createAsyncThunk('beer/addToFavorite', async (favo
 });
 
 export const getFavorites = createAsyncThunk('beer/getFavorites', async () => {
-    console.log('getting your favorites')
     const res = await beerService.getFavorites();
+    return res;
+});
+
+export const removeFavorite = createAsyncThunk('beer/removeFavorite', async (favoriteId) => {
+    const res = await beerService.removeFavorite(favoriteId);
+    return res;
+});
+
+export const removeAllFavorites = createAsyncThunk('beer/removeAllFavorites', async () => {
+    const res = await beerService.removeAllFavorites();
     return res;
 });
 
 const initialState = {
     beers: null,
-    favoriteBeers: null,
+    favoriteBeers: [],
+    allRemovedStatus: false
 };
 
 
@@ -29,6 +39,9 @@ const beerSlice = createSlice({
     name: 'beer',
     initialState,
     reducers: {
+        resetAllRemovedStatus: (state) => {
+            state.allRemovedStatus = false;
+        }
 
     },
 
@@ -38,14 +51,22 @@ const beerSlice = createSlice({
                 state.beers = payload;
             })
             .addCase(addToFavorites.fulfilled, (state, { payload }) => {
-                state.favoriteBeers = payload;
+                state.favoriteBeers.push(payload);
             })
             .addCase(getFavorites.fulfilled, (state, { payload }) => {
                 state.favoriteBeers = payload;
+            })
+            .addCase(removeFavorite.fulfilled, (state, { payload }) => {
+                state.favoriteBeers = payload;
+            })
+            .addCase(removeAllFavorites.fulfilled, (state, { payload }) => {
+                state.favoriteBeers = payload;
+                state.allRemovedStatus = true;
             });
     }
 });
 
 
 export const beerState = (state) => state.beerStore;
+export const { resetAllRemovedStatus } = beerSlice.actions;
 export const beerReducer = beerSlice.reducer;

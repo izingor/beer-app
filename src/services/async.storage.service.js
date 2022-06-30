@@ -4,7 +4,8 @@ export const asyncStorageService = {
     post,
     put,
     remove,
-    postMany
+    postMany,
+    removeAll
 };
 
 function query(entityType) {
@@ -56,15 +57,14 @@ function remove(entityType, entityId) {
         });
 }
 
+function removeAll() {
+
+    localStorage.clear();
+    return Promise.resolve([]);
+
+}
+
 function _save(entityType, entities) {
     localStorage.setItem(entityType, JSON.stringify(entities));
 }
 
-function _makeId(length = 8) {
-    let text = "";
-    let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for (let i = 0; i < length; i++) {
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return text;
-}

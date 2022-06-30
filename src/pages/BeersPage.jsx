@@ -33,7 +33,6 @@ export const BeersPage = () => {
 	// console.log('query', query.get('page'));
 	// console.log('location', location.pathname);
 
-	console.log(beers)
 
 	useEffect(() => {
 		if (currQueryPage !== page) history.push(`/beers?page=${page}`)

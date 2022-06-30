@@ -7,7 +7,9 @@ const BEER_DB = 'beerDB';
 export const beerService = {
     query,
     addToFavorites,
-    getFavorites
+    getFavorites,
+    removeFavorite,
+    removeAllFavorites
 };
 
 
@@ -1186,12 +1188,9 @@ async function query(filterBy = null) {
 }
 
 async function addToFavorites(beer) {
-    // console.log('beer',beer)
     try {
         const favoriteBeer = await asyncStorageService.get(BEER_DB, beer.id);
-        // console.log('favorite beer', favoriteBeer);
         if (favoriteBeer) {
-            // updatedFavorites = await asyncStorageService.remove(BEER_DB, beer.id);
             return null;
         } else {
             const updatedFavorites = await asyncStorageService.post(BEER_DB, beer);
@@ -1203,11 +1202,34 @@ async function addToFavorites(beer) {
 }
 
 
+
+async function removeFavorite(favoriteId) {
+
+    try {
+        const updatedFavorites = await asyncStorageService.remove(BEER_DB, favoriteId);
+        console.log('updated favorites', updatedFavorites);
+        return updatedFavorites;
+    } catch (err) {
+        console.log('Had an error while removing your favorite', err);
+    }
+}
+
+
 async function getFavorites() {
     try {
         const favoriteBeers = await asyncStorageService.query(BEER_DB);
         return favoriteBeers;
     } catch (err) {
         console.log('Had an error while getting your favorite beers', err);
+    }
+}
+
+async function removeAllFavorites() {
+
+    try {
+        const updatedFavorites = await asyncStorageService.removeAll();
+        return updatedFavorites;
+    } catch (err) {
+        console.log('Had an error while removing the local storage', err);
     }
 }
