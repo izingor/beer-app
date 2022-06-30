@@ -108,7 +108,6 @@ export const BeersPage = () => {
 				<div className='columns-xs pb-20 '>
 					{beers.map((beer) => (
 						<BeerCard
-							// favoriteIds={favoriteIds}
 							beer={beer}
 							key={beer.id}
 							onBeerDetailsClicked={onBeerDetailsClicked}
