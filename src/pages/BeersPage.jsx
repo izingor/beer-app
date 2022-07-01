@@ -32,6 +32,10 @@ export const BeersPage = () => {
 	const currPage = query.get('page')
 	const currFood = query.get('food')
 
+	const isNoBeers = beers.currPage && !beers.currPage.length && true
+	const isNextBlocked = beers.nextPage && beers.nextPage.length < 1
+	const isBackBlocked = page.current < 2
+
 	useEffect(() => {
 		if (currPage && currPage !== page.current) {
 			page.current = currPage
@@ -43,7 +47,7 @@ export const BeersPage = () => {
 	}, [dispatch, currPage, currFood])
 
 	const onNextClicked = () => {
-		if (beers.nextPage.length < 1) return
+		if (isNextBlocked) return
 
 		page.current++
 
@@ -55,7 +59,7 @@ export const BeersPage = () => {
 	}
 
 	const onPrevClicked = () => {
-		if (currPage < 2) return
+		if (isBackBlocked) return
 
 		page.current--
 
@@ -79,13 +83,8 @@ export const BeersPage = () => {
 		}
 	}
 
-	const onBeerDetailsClicked = (beerId = null) => {
-		if (!beerDetails) {
-			const beerForDisplay = beers.find((beer) => beer.id === beerId)
-			setBeerDetails(beerForDisplay)
-		} else {
-			setBeerDetails(null)
-		}
+	const onBeerDetailsClicked = (beer) => {
+		beerDetails ? setBeerDetails(null) : setBeerDetails(beer)
 	}
 
 	const onAddFavoriteClicked = (beer) => {
@@ -95,10 +94,6 @@ export const BeersPage = () => {
 	const onRemoveFavoriteClicked = (beerId) => {
 		dispatch(removeFavorite(beerId))
 	}
-
-	const isNoBeers = beers.currPage && !beers.currPage.length && true
-	const isNextBlocked = beers.nextPage && beers.nextPage.length < 1
-	const isBackBlocked = page.current < 2
 
 	return (
 		<div className='container flex flex-col'>
@@ -132,7 +127,7 @@ export const BeersPage = () => {
 								<SmallBtn
 									type='details'
 									txt='Details'
-									handleClick={() => onBeerDetailsClicked(beer.id)}
+									handleClick={() => onBeerDetailsClicked(beer)}
 								/>
 							}
 						/>

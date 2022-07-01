@@ -12,7 +12,7 @@ function query(entityType) {
     return Promise.resolve(entities);
 }
 
-function get(entityType, entityId) {
+async function get(entityType, entityId) {
     return query(entityType)
         .then(entities => entities.find(entity => entity.id === entityId));
 }
