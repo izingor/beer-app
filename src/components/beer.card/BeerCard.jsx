@@ -7,7 +7,7 @@ export const BeerCard = ({
 	const backgroundImage = { backgroundImage: `url(${beer?.image_url})` }
 	return (
 		<div
-			className='card break-inside-avoid  mb-3 border-gray_border border-4  rounded-lg   bg-no-repeat bg-right-bottom bg-[length:50px_125px] bg-origin-content p-3 '
+			className='card break-inside-avoid  mb-3 border-theme border  rounded-lg   bg-no-repeat bg-right-bottom bg-[length:50px_125px] bg-origin-content p-3 '
 			style={backgroundImage}
 		>
 			<div className='m-4 w-3/4 '>
