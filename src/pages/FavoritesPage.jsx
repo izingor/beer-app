@@ -18,10 +18,9 @@ import { RatingDropdown } from '../components/misc/RatingDropdown'
 import { EmptyMsg } from '../components/misc/EmptyMsg'
 
 export const FavoritesPage = () => {
+	const dispatch = useDispatch()
 	const { favoriteBeers, allRemovedStatus } = useSelector(beerState)
 	const [isRemoveModal, setIsRemoveModal] = useState(false)
-	const dispatch = useDispatch()
-
 	const [favoriteIdx, setFavoriteIdx] = useState(null)
 
 	useEffect(() => {
@@ -63,7 +62,7 @@ export const FavoritesPage = () => {
 								actionBtn={
 									<SmallBtn
 										txt='Remove'
-										type='generic'
+										type='alert'
 										handleClick={() =>
 											onRemoveFavoriteClicked(favoriteBeer?.id)
 										}

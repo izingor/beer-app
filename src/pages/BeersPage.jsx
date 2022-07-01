@@ -6,6 +6,7 @@ import {
 	beerState,
 	getBeers,
 	addToFavorites,
+	removeFavorite,
 } from '../store/slices/beers.store'
 import { LoadingSpinner } from '../components/misc/LoadingSpinner'
 import { Pagination } from '../components/misc/Pagination'
@@ -15,20 +16,22 @@ import { SearchInput } from '../components/misc/SearchInput'
 import { NotFoundMsg } from '../components/misc/NotFoundMsg'
 import { BeerDetailsModal } from '../components/modals/BeerDetailsModal'
 import { SmallBtn } from '../components/buttons/SmallBtn'
+import { FavoriteActionBtn } from '../components/buttons/FavoriteActionBtn'
 
 export const BeersPage = () => {
 	const history = useHistory()
 	const query = useQuery()
 	const dispatch = useDispatch()
 
-	const { beers, favoriteBeers, queryParams } = useSelector(beerState)
+	const { beers, queryParams, favoriteIds } = useSelector(beerState)
+	const [beerDetails, setBeerDetails] = useState(null)
+
 	let page = useRef(1)
 	let food = useRef('')
 
 	const currPage = query.get('page')
 	const currFood = query.get('food')
 
-	const [beerDetails, setBeerDetails] = useState(null)
 	useEffect(() => {
 		if (currPage && currPage !== page.current) {
 			page.current = currPage
@@ -37,7 +40,7 @@ export const BeersPage = () => {
 		}
 
 		dispatch(getBeers({ page: page.current, food: food.current }))
-	}, [dispatch, page.current, food.current])
+	}, [dispatch, currPage, currFood])
 
 	const onNextClicked = () => {
 		if (beers.length < 9) return
@@ -85,9 +88,12 @@ export const BeersPage = () => {
 		}
 	}
 
-	const onAddFavoriteClicked = (beerId) => {
-		const favoriteBeer = beers.find((beer) => beer.id === beerId)
-		dispatch(addToFavorites(favoriteBeer))
+	const onAddFavoriteClicked = (beer) => {
+		dispatch(addToFavorites(beer))
+	}
+
+	const onRemoveFavoriteClicked = (beerId) => {
+		dispatch(removeFavorite(beerId))
 	}
 
 	const isNoBeers = beers && !beers.length && true
@@ -110,13 +116,12 @@ export const BeersPage = () => {
 						<BeerCard
 							beer={beer}
 							key={beer.id}
-							onBeerDetailsClicked={onBeerDetailsClicked}
-							onAddFavoriteClicked={onAddFavoriteClicked}
 							actionBtn={
-								<SmallBtn
-									type='generic'
-									txt='Add to favorites'
-									handleClick={() => onAddFavoriteClicked(beer.id)}
+								<FavoriteActionBtn
+									favoriteIds={favoriteIds}
+									beer={beer}
+									onRemoveFavoriteClicked={onRemoveFavoriteClicked}
+									onAddFavoriteClicked={onAddFavoriteClicked}
 								/>
 							}
 							details={

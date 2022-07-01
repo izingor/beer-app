@@ -2,40 +2,41 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { beerService } from '../../services/beer.service';
 
 
-export const getBeers = createAsyncThunk('beer/getBeers', async (params) => {
-    const data = await beerService.query(params);
-
-    return { params, data };
+export const getBeers = createAsyncThunk('beer/getBeers', async (queryParams) => {
+    const [beers, favoriteIds] = await Promise.all([beerService.query(queryParams), beerService.getFavoriteIds()]);
+    return { queryParams, beers, favoriteIds };
 });
 
 export const addToFavorites = createAsyncThunk('beer/addToFavorite', async (favoriteBeer) => {
-    const data = await beerService.addToFavorites(favoriteBeer);
-    return data;
+    const updatedFavorite = await beerService.addToFavorites(favoriteBeer);
+    return updatedFavorite;
 });
 
 export const getFavorites = createAsyncThunk('beer/getFavorites', async () => {
-    const data = await beerService.getFavorites();
-    return data;
+    const favoriteBeers = await beerService.getFavorites();
+    return favoriteBeers;
 });
 
 export const removeFavorite = createAsyncThunk('beer/removeFavorite', async (favoriteId) => {
-    const data = await beerService.removeFavorite(favoriteId);
-    return data;
+    const updatedFavorites = await beerService.removeFavorite(favoriteId);
+    const favoriteIds = await beerService.getFavoriteIds();
+    return { updatedFavorites, favoriteIds };
 });
 
 export const removeAllFavorites = createAsyncThunk('beer/removeAllFavorites', async () => {
-    const data = await beerService.removeAllFavorites();
-    return data;
+    const emptyFavorites = await beerService.removeAllFavorites();
+    return emptyFavorites;
 });
 
 export const updateFavoriteBeer = createAsyncThunk('beer/updateBeerRating', async (beer) => {
-    const data = await beerService.updateFavoriteBeer(beer);
-    return data;
+    const updatedFavorite = await beerService.updateFavoriteBeer(beer);
+    return updatedFavorite;
 });
 
 const initialState = {
     beers: null,
     favoriteBeers: [],
+    favoriteIds: [],
     allRemovedStatus: false,
     addFavoriteStatus: '',
     queryParams: {
@@ -61,11 +62,13 @@ const beerSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getBeers.fulfilled, (state, { payload }) => {
-                state.beers = payload.data;
-                state.queryParams = payload.params;
+                state.beers = payload.beers;
+                state.queryParams = payload.queryParams;
+                state.favoriteIds = payload.favoriteIds;
             })
             .addCase(addToFavorites.fulfilled, (state, { payload }) => {
                 state.favoriteBeers.push(payload);
+                state.favoriteIds.push(payload.id);
             })
             .addCase(addToFavorites.rejected, (state, { payload }) => {
                 state.addFavoriteStatus = payload;
@@ -74,7 +77,8 @@ const beerSlice = createSlice({
                 state.favoriteBeers = payload;
             })
             .addCase(removeFavorite.fulfilled, (state, { payload }) => {
-                state.favoriteBeers = payload;
+                state.favoriteBeers = payload.updatedFavorites;
+                state.favoriteIds = payload.favoriteIds;
             })
             .addCase(removeAllFavorites.fulfilled, (state, { payload }) => {
                 state.favoriteBeers = payload;

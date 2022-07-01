@@ -3,7 +3,6 @@ export const BeerCard = ({
 	actionBtn = null,
 	backBtn = null,
 	details = null,
-	favoriteIds = null,
 }) => {
 	const backgroundImage = { backgroundImage: `url(${beer?.image_url})` }
 	return (

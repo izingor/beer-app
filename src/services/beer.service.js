@@ -9,7 +9,8 @@ export const beerService = {
     getFavorites,
     removeFavorite,
     removeAllFavorites,
-    updateFavoriteBeer
+    updateFavoriteBeer,
+    getFavoriteIds
 };
 
 async function query(filterBy = null) {
@@ -50,7 +51,7 @@ async function removeFavorite(favoriteId) {
 
 async function getFavorites() {
     try {
-        const favoriteBeers = await asyncStorageService.query(BEER_DB);
+        const favoriteBeers = await asyncStorageService.query(BEER_DB) || [];
         return favoriteBeers;
     } catch (err) {
         console.log('Had an error while getting your favorite beers', err);
@@ -68,9 +69,19 @@ async function removeAllFavorites() {
 
 async function updateFavoriteBeer(beer) {
     try {
-        const updatedBeer = await asyncStorageService.put(BEER_DB, beer);
-        return updatedBeer;
+        const updatedFavorite = await asyncStorageService.put(BEER_DB, beer);
+        return updatedFavorite;
     } catch (err) {
         console.log('Had an error while updating your beer', err);
+    }
+}
+
+async function getFavoriteIds() {
+    try {
+        const favorites = await getFavorites();
+        const ids = favorites.map(favorite => favorite.id);
+        return ids;
+    } catch (err) {
+        console.log('Had an error while getting your favorites ids list', err);
     }
 }
