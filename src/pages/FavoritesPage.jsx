@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { BeerCard } from '../components/BeerCard/BeerCard'
+import { BeerCard } from '../components/beer.card/BeerCard'
 import {
 	beerState,
 	getFavorites,
@@ -9,19 +9,20 @@ import {
 	resetAllRemovedStatus,
 	updateFavoriteBeer,
 } from '../store/slices/beers.store'
-import { FavoritesActionBar } from '../components/misc/FavoritesActionBar'
+import { FavoritesActionBar } from '../components/inputs/FavoritesActionBar'
 import { RemoveConfirmationModal } from '../components/modals/RemoveConfirmationModal'
 import { SmallBtn } from '../components/buttons/SmallBtn'
 import { SuccessModal } from '../components/modals/SuccessModal'
 import { BeerDetailsModal } from '../components/modals/BeerDetailsModal'
-import { RatingDropdown } from '../components/misc/RatingDropdown'
-import { EmptyMsg } from '../components/misc/EmptyMsg'
+import { RatingDropdown } from '../components/inputs/RatingDropdown'
+import { EmptyMsg } from '../components/notifications/EmptyMsg'
 
 export const FavoritesPage = () => {
 	const dispatch = useDispatch()
 	const { favoriteBeers, allRemovedStatus } = useSelector(beerState)
 	const [isRemoveModal, setIsRemoveModal] = useState(false)
 	const [favoriteIdx, setFavoriteIdx] = useState(null)
+	const isThereFavorites = favoriteBeers && favoriteBeers.length > 0
 
 	useEffect(() => {
 		dispatch(getFavorites())
@@ -46,8 +47,6 @@ export const FavoritesPage = () => {
 
 		dispatch(updateFavoriteBeer(beerForUpdate))
 	}
-
-	const isThereFavorites = favoriteBeers && favoriteBeers.length > 0
 
 	return (
 		<div className='container flex flex-col justify-center items-center'>

@@ -1,19 +1,18 @@
-// import { LoadingSpinner } from '../components/misc/LoadingSpinner';
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { BeerCard } from '../components/BeerCard/BeerCard'
+import { BeerCard } from '../components/beer.card/BeerCard'
 import {
 	beerState,
 	getBeers,
 	addToFavorites,
 	removeFavorite,
 } from '../store/slices/beers.store'
-import { LoadingSpinner } from '../components/misc/LoadingSpinner'
-import { Pagination } from '../components/misc/Pagination'
+import { LoadingSpinner } from '../components/notifications/LoadingSpinner'
+import { Pagination } from '../components/inputs/Pagination'
 import { useQuery } from '../hooks/useQuery'
 import { useHistory } from 'react-router-dom'
-import { SearchInput } from '../components/misc/SearchInput'
-import { NotFoundMsg } from '../components/misc/NotFoundMsg'
+import { SearchInput } from '../components/inputs/SearchInput'
+import { NotFoundMsg } from '../components/notifications/NotFoundMsg'
 import { BeerDetailsModal } from '../components/modals/BeerDetailsModal'
 import { SmallBtn } from '../components/buttons/SmallBtn'
 import { FavoriteActionBtn } from '../components/buttons/FavoriteActionBtn'
