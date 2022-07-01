@@ -1,8 +1,16 @@
-export const Pagination = ({ onNextClicked, onPrevClicked, page = 1 }) => {
+export const Pagination = ({
+	onNextClicked,
+	onPrevClicked,
+	page = 1,
+	isNextBlocked,
+	isBackBlocked,
+}) => {
+	
 	return (
 		<nav className='w-full flex justify-end my-3'>
 			<ul className='inline-flex items-center -space-x-px '>
 				<li
+					style={{ cursor: isBackBlocked && 'not-allowed' }}
 					onClick={onPrevClicked}
 					className='hover:bg-gray_hover hover:cursor-pointer'
 				>
@@ -28,6 +36,7 @@ export const Pagination = ({ onNextClicked, onPrevClicked, page = 1 }) => {
 					</p>
 				</li>
 				<li
+					style={{ cursor: isNextBlocked && 'not-allowed' }}
 					onClick={onNextClicked}
 					className='hover:bg-gray_hover hover:cursor-pointer'
 				>

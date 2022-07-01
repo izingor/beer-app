@@ -10,7 +10,6 @@ export const HomePage = () => {
 				</h1>
 				<h3 className="mb-4">Home place of your future favorite beer</h3>
 			</div>
-
 			<div className="col-start-1 col-end-5 row-start-1 row-end-5  sm:col-start-2 sm:col-end-6 sm:row-start-1 sm:row-end-4  flex flex-col items-start justify-center">
 				<Lottie animationData={HomePageAnimation} loop={true} />
 			</div>

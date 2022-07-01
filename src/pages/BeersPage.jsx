@@ -43,7 +43,7 @@ export const BeersPage = () => {
 	}, [dispatch, currPage, currFood])
 
 	const onNextClicked = () => {
-		if (beers.length < 9) return
+		if (beers.nextPage.length < 1) return
 
 		page.current++
 
@@ -96,13 +96,17 @@ export const BeersPage = () => {
 		dispatch(removeFavorite(beerId))
 	}
 
-	const isNoBeers = beers && !beers.length && true
+	const isNoBeers = beers.currPage && !beers.currPage.length && true
+	const isNextBlocked = beers.nextPage && beers.nextPage.length < 1
+	const isBackBlocked = page.current < 2
 
 	return (
 		<div className='container flex flex-col'>
 			<div className='flex w-full'>
 				<SearchInput onSearchClicked={onSearchClicked} />
 				<Pagination
+					isNextBlocked={isNextBlocked}
+					isBackBlocked={isBackBlocked}
 					onNextClicked={onNextClicked}
 					onPrevClicked={onPrevClicked}
 					page={queryParams.page}
@@ -110,9 +114,9 @@ export const BeersPage = () => {
 			</div>
 			{isNoBeers ? (
 				<NotFoundMsg />
-			) : beers ? (
+			) : beers.currPage ? (
 				<div className='columns-xs pb-20 '>
-					{beers.map((beer) => (
+					{beers.currPage.map((beer) => (
 						<BeerCard
 							beer={beer}
 							key={beer.id}

@@ -34,7 +34,10 @@ export const updateFavoriteBeer = createAsyncThunk('beer/updateBeerRating', asyn
 });
 
 const initialState = {
-    beers: null,
+    beers: {
+        currPage:null,
+        nextPage:null
+    },
     favoriteBeers: [],
     favoriteIds: [],
     allRemovedStatus: false,

@@ -13,13 +13,15 @@ export const beerService = {
     getFavoriteIds
 };
 
-async function query(filterBy = null) {
-    const page = filterBy?.page ? filterBy.page : '1';
-    const food = filterBy?.food ? `&food=${filterBy.food}` : '';
+async function query(queryParams = null) {
+    const page = queryParams?.page ? queryParams.page : '1';
+    const food = queryParams?.food ? `&food=${queryParams.food}` : '';
 
     try {
-        const res = await axios.get(`https://api.punkapi.com/v2/beers?page=${page}&per_page=9${food}`);
-        return res.data;
+        const currPage = await axios.get(`https://api.punkapi.com/v2/beers?page=${page}&per_page=9${food}`);
+        const nextPage = await axios.get(`https://api.punkapi.com/v2/beers?page=${page + 1}&per_page=9${food}`);
+        
+        return {currPage:currPage.data, nextPage:nextPage.data};
     } catch (err) {
         console.log('Had an error while getting you beers', err);
     }
